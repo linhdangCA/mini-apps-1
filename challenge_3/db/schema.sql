@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS users (
   shipping_id INT,
   billing_id INT,
   FOREIGN KEY (shipping_id) REFERENCES shippings(id),
-  FOREIGN KEY (billing_id) REFERENCES billings(id),
+  FOREIGN KEY (billing_id) REFERENCES billings(id)
 );
 
 CREATE TABLE IF NOT EXISTS shippings (
