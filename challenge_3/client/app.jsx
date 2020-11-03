@@ -9,10 +9,27 @@ class App extends React.Component {
       shipping_id: null,
       billing_id: null
     };
+
+    // this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
     this.setState({currentPage: 'userInfo'});
+  }
+
+  // handleSubmit() {
+
+  // }
+
+  handleChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
   }
 
   render() {
@@ -21,16 +38,16 @@ class App extends React.Component {
     // homepage
     if (currentPage === 'homepage') {
       page = <Homepage />;
-      // form 1
+    // form 1
     } else if (currentPage === 'userInfo') {
-      page = <UserInfo />
-      // form 2
+      page = <UserInfo name={this.state.value} handleChange={this.handleChange}/>
+    // form 2
     } else if (currentPage === 'shippingInfo') {
       page = <ShippingInfo />
-      // form 3
+    // form 3
     } else if (currentPage === 'billingInfo') {
       page = <BillingInfo />
-      // confirmation page
+    // confirmation page
     } else if (currentPage === 'confirmation' ) {
       page = <Confirmation />
     }
@@ -42,14 +59,25 @@ class App extends React.Component {
 }
 
 function Homepage() {
-  return (<button>CHECKOUT</button>)
+  return (<button type="submit">CHECKOUT</button>)
 }
-function UserInfo() {
+function UserInfo(props) {
   return (
     <form>
+      <h1>Account creation</h1>
       <label>Name:
-        <input type="text"></input>
+        <input name="name" type="text" onChange={()=>props.handleChange(event)}></input>
       </label>
+      <br />
+      <label>Email Address:
+        <input name="email" type="text" onChange={()=>props.handleChange(event)}></input>
+      </label>
+      <br />
+      <label>Password:
+        <input name="password" type="password" onChange={()=>props.handleChange(event)}></input>
+      </label>
+      <br />
+      <input type="submit" value="Next"></input>
     </form>
   )
 }
