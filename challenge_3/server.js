@@ -72,7 +72,7 @@ app.post('/shipping', (req, res) => {
 
 app.post('/billing', (req, res) => {
   var data = req.body;
-  var queryStr = "UPDATE user_accounts SET creditCard = ?, expiryDate = ?, cvv = ?, billingZipcode = ? WHERE id = ?;";
+  var queryStr = "UPDATE user_accounts SET creditCard = ?, expiryDate = ?, cvv = ?, billingZipcode = ? WHERE id = ?";
   var values = [data.creditCard, data.expiryDate, data.cvv, data.billingZipcode, data.id];
   query(queryStr, values, (err, results) => {
     if (err) {

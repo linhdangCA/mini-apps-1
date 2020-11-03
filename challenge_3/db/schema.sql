@@ -14,11 +14,12 @@ CREATE TABLE IF NOT EXISTS user_accounts (
   zipcode INT,
   phoneNumber INT,
   creditCard INT,
-  expiryDate DATE,
+  expiryDate VARCHAR(50),
   cvv INT,
   billingZipcode INT
 );
 
+-- ----------------- swapped from 3 tables to 1 -------------------
 -- CREATE TABLE IF NOT EXISTS users (
 --   id INT PRIMARY KEY AUTO_INCREMENT,
 --   name VARCHAR(50),

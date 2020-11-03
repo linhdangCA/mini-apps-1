@@ -17,7 +17,8 @@ class App extends React.Component {
       creditCard: null,
       expiryDate: null,
       cvv: null,
-      billingZipcode: null
+      billingZipcode: null,
+      id: null
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -29,19 +30,24 @@ class App extends React.Component {
   }
 
   handleNext(e) {
+    var state = Object.assign({}, this.state);
     if (this.state.currentPage === 'confirmationPage') {
-      console.log('confirmation page');
-      // send post request with all the information
     }
     e.preventDefault();
     if (this.state.currentPage === 'homepage') {
       this.setState({currentPage: 'userInfo'})
     } else if (this.state.currentPage === 'userInfo') {
-      this.setState({currentPage: 'shippingInfo'})
+      axios.post('/user', state)
+        .then((res)=>this.setState({currentPage: 'shippingInfo', id: res.data[0].id}))
+        .catch((err)=>console.log(err));
     } else if (this.state.currentPage === 'shippingInfo') {
-      this.setState({currentPage: 'billingInfo'})
+      axios.post('/shipping', state)
+        .then((res)=>this.setState({currentPage: 'billingInfo'}))
+        .catch((err)=>console.log(err));
     } else if (this.state.currentPage === 'billingInfo') {
-      this.setState({currentPage: 'confirmationPage'})
+      axios.post('/billing', state)
+        .then((res)=>this.setState({currentPage: 'confirmationPage'}))
+        .catch((err)=>console.log(err));
     }
   }
 
@@ -152,7 +158,7 @@ function BillingInfo(props) {
       </label>
       <br />
       <label>Expiry Date:
-        <input name="expiryDate" type="date" onChange={()=>props.handleChange(event)}></input>
+        <input name="expiryDate" type="text" onChange={()=>props.handleChange(event)}></input>
       </label>
       <br />
       <label>CVV:
