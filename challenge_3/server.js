@@ -40,9 +40,27 @@ app.get('/users', (req, res) => {
 
 app.post('/user', (req, res) => {
   var data = req.body;
-  console.log('data', data)
   var queryStr = "INSERT INTO user_accounts (name, email, password) VALUES (?, ?, ?);";
   var values = [data.name, data.email, data.password];
+  query(queryStr, values, (err, results) => {
+    if (err) {
+      res.sendStatus(400);
+    } else {
+      query('SELECT id FROM user_accounts ORDER BY id DESC LIMIT 1', [], (err, results) => {
+        if (err) {
+          res.sendStatus(400);
+        } else {
+          res.json(results);
+        }
+      })
+    }
+  })
+})
+
+app.post('/shippings', (req, res) => {
+  var data = req.body;
+  var queryStr = "UPDATE user_accounts SET address1 = ?, address2 = ?, city = ?, state = ?, zipcode = ?, phoneNumber = ? WHERE id = ?;";
+  var values = [data.address1, data.address2, data.city, data.state, data.zipcode, data.phoneNumber, data.id];
   query(queryStr, values, (err, results) => {
     if (err) {
       res.sendStatus(400);
