@@ -57,10 +57,23 @@ app.post('/user', (req, res) => {
   })
 })
 
-app.post('/shippings', (req, res) => {
+app.post('/shipping', (req, res) => {
   var data = req.body;
   var queryStr = "UPDATE user_accounts SET address1 = ?, address2 = ?, city = ?, state = ?, zipcode = ?, phoneNumber = ? WHERE id = ?;";
   var values = [data.address1, data.address2, data.city, data.state, data.zipcode, data.phoneNumber, data.id];
+  query(queryStr, values, (err, results) => {
+    if (err) {
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(201);
+    }
+  })
+})
+
+app.post('/billing', (req, res) => {
+  var data = req.body;
+  var queryStr = "UPDATE user_accounts SET creditCard = ?, expiryDate = ?, cvv = ?, billingZipcode = ? WHERE id = ?;";
+  var values = [data.creditCard, data.expiryDate, data.cvv, data.billingZipcode, data.id];
   query(queryStr, values, (err, results) => {
     if (err) {
       res.sendStatus(400);
