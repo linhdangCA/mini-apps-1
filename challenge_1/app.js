@@ -9,7 +9,7 @@ var winningCombinations = [
   [1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]
 ];
 // spots that have already been picked
-var unavailablePicks = [];
+var unavailablePicks = {};
 // show who's turn it is
 var currentPlayer = 'X';
 
@@ -19,8 +19,17 @@ var currentPlayer = 'X';
 
 // ----------- controller -----------
 // logic for placing pick
+var placePick = (event) => {
+  var pick = event.target.id;
   // check for conflict
-// swap to other player's turn
+  if (unavailablePicks[pick] === undefined) {
+    unavailablePicks[pick] = true;
+    document.getElementById(pick).innerHTML = currentPlayer;
+    // swap to other player's turn
+    currentPlayer === 'X' ? (playerXPicks.push(pick), currentPlayer = 'O') : (playerOPicks.push(pick), currentPlayer = 'X');
+    playerTurn(currentPlayer);
+  }
+};
 // logic for winner and tie
   // map winning combinations combinations
   // tie if all 9 spots are filled and no winner
@@ -31,7 +40,11 @@ var currentPlayer = 'X';
 
 // ------------- view ---------------
 // show current player
+var playerTurn = (currentPlayer) => {
+  document.getElementById("playerTurn").innerHTML = `Player ${currentPlayer}'s turn`;
+}
 // build event listener for placing player's pick
+document.getElementById("board").addEventListener("click", (event)=> placePick(event));
 // button to reset the board
 
 
