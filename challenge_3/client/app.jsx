@@ -23,7 +23,7 @@ class App extends React.Component {
     this.handleNext = this.handleNext.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-
+  // ----------- event handlers ------------
   componentDidMount() {
     this.setState({currentPage: 'homepage'});
   }
@@ -54,6 +54,7 @@ class App extends React.Component {
     });
   }
 
+  // --------------- rendering ---------------
   render() {
     const currentPage = this.state.currentPage;
     let page;
@@ -80,6 +81,7 @@ class App extends React.Component {
   }
 }
 
+// ------------ pages and forms ---------------
 function Homepage(props) {
   return (
     <form onSubmit={()=>props.handleNext(event)}>
@@ -186,4 +188,5 @@ function ConfirmationPage(props) {
   )
 }
 
+// ---------- render to html ------------
 ReactDOM.render(<App />, document.getElementById('app'))
