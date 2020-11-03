@@ -12,7 +12,12 @@ class App extends React.Component {
       address2: '',
       city: '',
       state: '',
-      zipcode: null
+      zipcode: null,
+      phoneNumber: null,
+      creditCard: null,
+      expiryDate: null,
+      cvv: null,
+      billingZipcode: null
     };
 
     this.handleNext = this.handleNext.bind(this);
@@ -20,11 +25,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({currentPage: 'userInfo'});
+    this.setState({currentPage: 'homepage'});
   }
 
   handleNext(e) {
-    console.log(this)
     e.preventDefault();
     if (this.state.currentPage === 'homepage') {
       this.setState({currentPage: 'userInfo'})
@@ -55,7 +59,7 @@ class App extends React.Component {
     let page;
     // homepage
     if (currentPage === 'homepage') {
-      page = <Homepage />;
+      page = <Homepage handleNext={this.handleNext} />;
     // form 1
     } else if (currentPage === 'userInfo') {
       page = <UserInfo handleNext={this.handleNext} handleChange={this.handleChange}/>
@@ -67,7 +71,7 @@ class App extends React.Component {
       page = <BillingInfo handleNext={this.handleNext} handleChange={this.handleChange}/>
     // confirmation page
     } else if (currentPage === 'confirmationPage' ) {
-      page = <ConfirmationPage handleNext={this.handleNext} handleChange={this.handleChange}/>
+      page = <ConfirmationPage state={this.state} handleNext={this.handleNext}/>
     }
 
     return (
@@ -76,8 +80,12 @@ class App extends React.Component {
   }
 }
 
-function Homepage() {
-  return (<button type="submit">CHECKOUT</button>)
+function Homepage(props) {
+  return (
+    <form onSubmit={()=>props.handleNext(event)}>
+      <button>CHECKOUT</button>
+    </form>
+  )
 }
 function UserInfo(props) {
   return (
@@ -112,15 +120,19 @@ function ShippingInfo(props) {
       </label>
       <br />
       <label>City:
-        <input name="city" type="password" onChange={()=>props.handleChange(event)}></input>
+        <input name="city" type="text" onChange={()=>props.handleChange(event)}></input>
       </label>
       <br />
       <label>State:
-        <input name="state" type="password" onChange={()=>props.handleChange(event)}></input>
+        <input name="state" type="text" onChange={()=>props.handleChange(event)}></input>
       </label>
       <br />
       <label>Zipcode:
-        <input name="zipcode" type="password" onChange={()=>props.handleChange(event)}></input>
+        <input name="zipcode" type="number" onChange={()=>props.handleChange(event)}></input>
+      </label>
+      <br />
+      <label>Phone number:
+        <input name="phoneNumber" type="number" onChange={()=>props.handleChange(event)}></input>
       </label>
       <br />
       <button>Next</button>
@@ -128,10 +140,50 @@ function ShippingInfo(props) {
   )
 }
 function BillingInfo(props) {
-  return (<button>NEXT</button>)
+  return (
+    <form onSubmit={()=>props.handleNext(event)}>
+      <h1>Billing Information</h1>
+      <label>Credit Card #:
+        <input name="creditCard" type="number" onChange={()=>props.handleChange(event)}></input>
+      </label>
+      <br />
+      <label>Expiry Date:
+        <input name="expiryDate" type="date" onChange={()=>props.handleChange(event)}></input>
+      </label>
+      <br />
+      <label>CVV:
+        <input name="cvv" type="number" onChange={()=>props.handleChange(event)}></input>
+      </label>
+      <br />
+      <label>Billing Zipcode:
+        <input name="billingZipcode" type="number" onChange={()=>props.handleChange(event)}></input>
+      </label>
+      <br />
+      <button>Next</button>
+    </form>
+  )
 }
-function confirmationPage(props) {
-  return (<button>NEXT</button>)
+function ConfirmationPage(props) {
+  var info = props.state;
+  return (
+    <div>
+      name: {info.name} <br />
+      email: {info.email} <br />
+      address1: {info.address1} <br />
+      address2: {info.address2} <br />
+      city: {info.city} <br />
+      state: {info.state} <br />
+      zipcode: {info.zipcode} <br />
+      phoneNumber: {info.phoneNumber} <br />
+      creditCard: {info.creditCard} <br />
+      expiryDate: {info.expiryDate} <br />
+      cvv: {info.cvv} <br />
+      billingZipcode: {info.billingZipcode} <br />
+      <form onSubmit={()=>props.handleNext(event)}>
+        <button>Confirm purchase!</button>
+      </form>
+    </div>
+  )
 }
 
 ReactDOM.render(<App />, document.getElementById('app'))
