@@ -29,6 +29,10 @@ class App extends React.Component {
   }
 
   handleNext(e) {
+    if (this.state.currentPage === 'confirmationPage') {
+      console.log('confirmation page');
+      // send post request with all the information
+    }
     e.preventDefault();
     if (this.state.currentPage === 'homepage') {
       this.setState({currentPage: 'userInfo'})
@@ -38,8 +42,6 @@ class App extends React.Component {
       this.setState({currentPage: 'billingInfo'})
     } else if (this.state.currentPage === 'billingInfo') {
       this.setState({currentPage: 'confirmationPage'})
-    } else {
-      this.setState({currentPage: 'homepage'})
     }
   }
 
@@ -181,7 +183,7 @@ function ConfirmationPage(props) {
       expiryDate: {info.expiryDate} <br />
       cvv: {info.cvv} <br />
       billingZipcode: {info.billingZipcode} <br />
-      <form onSubmit={()=>props.handleNext(event)}>
+      <form>
         <button>Confirm purchase!</button>
       </form>
     </div>

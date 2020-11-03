@@ -17,8 +17,8 @@ var connection = mysql.createConnection({
 
 connection.connect();
 
-var queryTest = (queryStr, values, callback) => {
-  connection.query(queryStr, (err, results) => {
+var query = (queryStr, values, callback) => {
+  connection.query(queryStr, values, (err, results) => {
     if (err) {
       callback(err);
     } else {
@@ -29,7 +29,7 @@ var queryTest = (queryStr, values, callback) => {
 
 // ------------ server & routes -------------------
 app.get('/users', (req, res) => {
-  queryTest('SELECT * FROM users', [], (err, results) => {
+  query('SELECT name FROM user_accounts', [], (err, results) => {
     if (err) {
       res.sendStatus(400);
     } else {
@@ -39,13 +39,17 @@ app.get('/users', (req, res) => {
 })
 
 app.post('/user', (req, res) => {
-  res.send('user endpoint');
-})
-app.post('/shipping', (req, res) => {
-  res.send('shipping endpoint');
-})
-app.post('/billing', (req, res) => {
-  res.send('shipping endpoint');
+  var data = req.body;
+  console.log('data', data)
+  var queryStr = "INSERT INTO user_accounts (name, email, password) VALUES (?, ?, ?);";
+  var values = [data.name, data.email, data.password];
+  query(queryStr, values, (err, results) => {
+    if (err) {
+      res.sendStatus(400);
+    } else {
+      res.sendStatus(201);
+    }
+  })
 })
 
 app.use(express.static('public'))
