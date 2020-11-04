@@ -36,6 +36,10 @@ var playerTurn = (currentPlayer) => {
   // if winner is not null
     // update player turn on webpage
 var placePick = (event, updatePlayerTurn) => {
+  console.log(event);
+  if (event.target.id === 'board') {
+    return;
+  }
   var pick = event.target.id;
   if (unavailablePicks[pick] === undefined && (!winner)) {
     unavailablePicks[pick] = true;
@@ -78,7 +82,7 @@ var isWinner = (playerPicks, callback) => {
 
 // tie if all 9 spots are filled and no winner
 var isTie = (callback) => {
-  if ((playerXPicks.length + playerOPicks.length) === 9) {
+  if ((playerXPicks.length + playerOPicks.length) === 9 && (!winner)) {
     winner = 'tie';
     callback(winner);
   }
@@ -92,6 +96,7 @@ var resetGame = () => {
   playerXPicks = [];
   playerOPicks = [];
   unavailablePicks = {};
+  currentPlayer = 'X';
   winner = null;
   for (var i = 1; i < 10; i++) {
     document.getElementById(i).innerHTML = '';
