@@ -61,9 +61,15 @@
       <section id="playerTurn">
         Player X goes first
       </section>
-      <section id="winnerCount">
-      </section>
-    </div>
+      <form id="updateNames">
+        <label for="playerX">Player X name:</label><br />
+        <input type="text" id="playerX" name="playerX"><br />
+        <label for="playerO">Player O name:</label><br />
+        <input type="text" id="playerO" name="playerO"><br />
+      </form>
+      <button onclick="updateNames()">Update Names</button>
+      </div>
+      <section id="winnerCount"></section>
     <button id="reset">Reset Game</button>
   </body>
   <script src=app.js></script>

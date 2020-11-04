@@ -122,3 +122,11 @@ var displayWinnerCount = () => {
 var playerTurn = (currentPlayer) => {
   document.getElementById("playerTurn").innerHTML = `Player ${currentPlayer}'s turn`;
 }
+// update names
+document.getElementById("updateNames").addEventListener("submit", (event) => {console.log(event); event.preventDefault()});
+
+var updateNames = () => {
+  var playerX = ` (${document.getElementById("updateNames").elements.item(0).value})`;
+  var playerO = ` (${document.getElementById("updateNames").elements.item(1).value})`;
+  console.log(playerX, playerO);
+}
