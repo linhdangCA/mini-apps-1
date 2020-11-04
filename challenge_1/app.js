@@ -1,14 +1,11 @@
 // ------------ model ---------------
-// player x positions
-// player o positions
-// winning combinations
-// spots that have already been picked
-// show who's turn it is
-// winner set to null
+
 var playerXPicks = [];
 var playerOPicks = [];
 var unavailablePicks = {};
 var currentPlayer = 'X';
+var playerXName = '';
+var playerOName = '';
 var winner = null;
 var lastWinner = 'X';
 var winnerCount = {'X': 0, 'O': 0}
@@ -20,7 +17,6 @@ var winningCombinations = [
 
 
 // ----------- controller -----------
-// announce winner or tie
 var declareWinner = (winner) => {
   if (winner === "tie") {
     document.getElementById("playerTurn").innerHTML = `This game is a tie!`;
@@ -32,21 +28,16 @@ var declareWinner = (winner) => {
   }
 }
 
-// logic for placing pick
-  // check for conflict and if there is already a winner
-    // post player's choice in grid
-    // swap to other player's turn
-  // if winner is not null
-    // update player turn on webpage
 var placePick = (event, updatePlayerTurn) => {
-  console.log(event);
   if (event.target.id === 'board') {
     return;
   }
   var pick = event.target.id;
   if (unavailablePicks[pick] === undefined && (!winner)) {
     unavailablePicks[pick] = true;
-    document.getElementById(pick).innerHTML = currentPlayer;
+    (currentPlayer === 'X') ?
+      document.getElementById(pick).innerHTML = currentPlayer + playerXName :
+      document.getElementById(pick).innerHTML = currentPlayer + playerOName;
     (currentPlayer === 'X') ?
       (playerXPicks.push(Number(pick)), isWinner(playerXPicks, declareWinner), currentPlayer = 'O') :
       (playerOPicks.push(Number(pick)), isWinner(playerOPicks, declareWinner), currentPlayer = 'X') ;
@@ -56,15 +47,6 @@ var placePick = (event, updatePlayerTurn) => {
   }
 };
 
-// logic for winner
-  // player picks must be greater than 2
-    // loop over winning combinations
-      // loop over winning combination
-        // if value is not included in player's number
-          // break
-            // if all match
-              // invoke callback
-  // check if game is a tie
 var isWinner = (playerPicks, callback) => {
   if (playerPicks.length > 2) {
     for (var i = 0; i < winningCombinations.length; i++) {
@@ -83,7 +65,6 @@ var isWinner = (playerPicks, callback) => {
   isTie(callback);
 }
 
-// tie if all 9 spots are filled and no winner
 var isTie = (callback) => {
   if ((playerXPicks.length + playerOPicks.length) === 9 && (!winner)) {
     winner = 'tie';
@@ -91,11 +72,7 @@ var isTie = (callback) => {
   }
 }
 
-// functionality to button to reset the board
 var resetGame = () => {
-  // set both players back to zero picks
-  // set winner to null
-  // loop over to clear the board and set player X to start
   playerXPicks = [];
   playerOPicks = [];
   unavailablePicks = {};
@@ -114,19 +91,19 @@ var resetGame = () => {
 document.getElementById("board").addEventListener("click", (event)=> placePick(event, playerTurn));
 // button to reset the board
 document.getElementById("reset").addEventListener("click", (event)=> resetGame());
+
 // shows winner count
 var displayWinnerCount = () => {
   document.getElementById("winnerCount").innerHTML = `X wins: ${winnerCount.X} \\(@ , @)/ O wins: ${winnerCount.O}`;
 }
+
 // show current player
 var playerTurn = (currentPlayer) => {
   document.getElementById("playerTurn").innerHTML = `Player ${currentPlayer}'s turn`;
 }
-// update names
-document.getElementById("updateNames").addEventListener("submit", (event) => {console.log(event); event.preventDefault()});
 
+// update with inputted names
 var updateNames = () => {
-  var playerX = ` (${document.getElementById("updateNames").elements.item(0).value})`;
-  var playerO = ` (${document.getElementById("updateNames").elements.item(1).value})`;
-  console.log(playerX, playerO);
+  playerXName = ` (${document.getElementById("updateNames").elements.item(0).value})`;
+  playerOName = ` (${document.getElementById("updateNames").elements.item(1).value})`;
 }
