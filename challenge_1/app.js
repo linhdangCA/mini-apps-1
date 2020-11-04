@@ -16,6 +16,10 @@ var winnerCount = {'X': 0, 'O': 0}
 var winningCombinations = [
   [1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]
 ];
+
+
+
+// ----------- controller -----------
 // announce winner or tie
 var declareWinner = (winner) => {
   if (winner === "tie") {
@@ -23,16 +27,11 @@ var declareWinner = (winner) => {
   } else {
     winnerCount[winner]++
     lastWinner = winner;
+    displayWinnerCount();
     document.getElementById("playerTurn").innerHTML = `Player ${winner} is the winner!`;
   }
 }
 
-// show current player
-var playerTurn = (currentPlayer) => {
-  document.getElementById("playerTurn").innerHTML = `Player ${currentPlayer}'s turn`;
-}
-
-// ----------- controller -----------
 // logic for placing pick
   // check for conflict and if there is already a winner
     // post player's choice in grid
@@ -115,6 +114,11 @@ var resetGame = () => {
 document.getElementById("board").addEventListener("click", (event)=> placePick(event, playerTurn));
 // button to reset the board
 document.getElementById("reset").addEventListener("click", (event)=> resetGame());
-
-
-
+// shows winner count
+var displayWinnerCount = () => {
+  document.getElementById("winnerCount").innerHTML = `X wins: ${winnerCount.X} \\(@ , @)/ O wins: ${winnerCount.O}`;
+}
+// show current player
+var playerTurn = (currentPlayer) => {
+  document.getElementById("playerTurn").innerHTML = `Player ${currentPlayer}'s turn`;
+}
