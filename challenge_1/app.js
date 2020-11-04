@@ -7,18 +7,22 @@
 // winner set to null
 var playerXPicks = [];
 var playerOPicks = [];
-var winningCombinations = [
-  [1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]
-];
 var unavailablePicks = {};
 var currentPlayer = 'X';
 var winner = null;
+var lastWinner = 'X';
+var winnerCount = {'X': 0, 'O': 0}
 
+var winningCombinations = [
+  [1,2,3], [4,5,6], [7,8,9], [1,4,7], [2,5,8], [3,6,9], [1,5,9], [3,5,7]
+];
 // announce winner or tie
 var declareWinner = (winner) => {
   if (winner === "tie") {
     document.getElementById("playerTurn").innerHTML = `This game is a tie!`;
   } else {
+    winnerCount[winner]++
+    lastWinner = winner;
     document.getElementById("playerTurn").innerHTML = `Player ${winner} is the winner!`;
   }
 }
@@ -96,12 +100,12 @@ var resetGame = () => {
   playerXPicks = [];
   playerOPicks = [];
   unavailablePicks = {};
-  currentPlayer = 'X';
+  currentPlayer = lastWinner;
   winner = null;
   for (var i = 1; i < 10; i++) {
     document.getElementById(i).innerHTML = '';
   }
-  document.getElementById("playerTurn").innerHTML = 'Player X goes first';
+  document.getElementById("playerTurn").innerHTML = `Player ${lastWinner} goes first`;
 }
 
 
